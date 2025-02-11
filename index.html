@@ -3,18 +3,112 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Random No Button</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Do You Love Me?</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: linear-gradient(to bottom, #fbc2eb, #a6c1ee);
+      padding: 50px;
+    }
+
+    .wrapper {
+      background-color: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      width: 400px;
+      margin: auto;
+    }
+
+    .question {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .gif {
+      width: 300px;
+      border-radius: 10px;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 20px; /* Space between buttons */
+      margin-top: 20px;
+    }
+
+    .yes-btn, .no-btn {
+      font-size: 18px;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      width: 100px;
+      text-align: center;
+      transition: 0.2s ease-in-out;
+      border-radius: 5px;
+    }
+
+    .yes-btn {
+      background-color: green;
+      color: white;
+    }
+
+    .no-btn {
+      background-color: red;
+      color: white;
+      position: relative;
+    }
+  </style>
 </head>
 <body>
-<div class="wrapper">
-  <h2 class="question">Do you love me?</h2>
-  <img class="gif" alt="gif" src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExanAxYnY0dHJkZmtzY3J3ZW51dzlsMzZmbjhlNW5tejBubjFubWY5YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ISOckXUybVfQ4/giphy.gif" />
-  <div class="btn-group">
-    <button class="yes-btn">Yes</button>
-    <button class="no-btn">No</button>
+  <div class="wrapper">
+    <h2 class="question">Do you love me?</h2>
+    <img class="gif" alt="gif" src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExanAxYnY0dHJkZmtzY3J3ZW51dzlsMzZmbjhlNW5tejBubjFubWY5YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ISOckXUybVfQ4/giphy.gif" />
+    <div class="btn-group">
+      <button class="yes-btn">Yes</button>
+      <button class="no-btn">No</button>
+    </div>
   </div>
-</div>
-<script src="script.js"></script>
+
+  <script>
+    const yesBtn = document.querySelector(".yes-btn");
+    const noBtn = document.querySelector(".no-btn");
+    const question = document.querySelector(".question");
+
+    // Change text and GIF when "Yes" is clicked
+    yesBtn.addEventListener("click", () => {
+      question.innerHTML = "Yay! I knew it! ❤️";
+      document.querySelector(".gif").src = "https://media.tenor.com/kBzWReeWn3MAAAAC/happy-bear-hug.gif";
+      noBtn.style.display = "none"; // Hide No button
+      yesBtn.style.display = "none"; // Hide Yes button
+    });
+
+    // Make the "No" button move when hovered
+    noBtn.addEventListener("mouseover", () => {
+      const wrapper = document.querySelector(".wrapper");
+      const wrapperRect = wrapper.getBoundingClientRect();
+      const noBtnRect = noBtn.getBoundingClientRect();
+
+      // Define movement area close to the main content
+      const minX = wrapperRect.left - 50;
+      const maxX = wrapperRect.right - noBtnRect.width + 50;
+      const minY = wrapperRect.bottom + 10;
+      const maxY = wrapperRect.bottom + 100;
+
+      // Generate a new position within the safe zone
+      let randomX, randomY;
+      do {
+        randomX = Math.floor(Math.random() * (maxX - minX)) + minX;
+        randomY = Math.floor(Math.random() * (maxY - minY)) + minY;
+      } while (
+        randomX < wrapperRect.left || randomX > wrapperRect.right - noBtnRect.width
+      );
+
+      noBtn.style.position = "absolute";
+      noBtn.style.left = randomX + "px";
+      noBtn.style.top = randomY + "px";
+    });
+  </script>
 </body>
 </html>
